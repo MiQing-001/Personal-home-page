@@ -1,40 +1,101 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-    
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <style>
         #scrolldiv {
             overflow: hidden;
         }
+        body {
+            background-image: url("bj.jpg");
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        #announcement {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        #announcement-content {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 80%;
+            text-align: center;
+        }
+        #enter-button {
+            margin-top: 20px;
+            background-color: #3085d6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #welcome-msg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            text-align: center;
+            display: none;
+            z-index: 9999;
+        }
     </style>
 </head>
-
 <body>
-</a></div><a style="
-    display: block;
-    background: #98a3ff;
-    color: #FFF;
-    text-align: center;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 25px;
-    margin: 0 auto;
-    margin-top: 0px;
-    border-radius: 32px;
-    width: 90%;
-" onclick="javascript:document.querySelector('.web_notice').remove()">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Cache-Control" content="no-transform">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
-    <meta name="referrer" content="never">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="XiaoMo-随机视频">
-    <meta name="keywords" content="随机视频,随机视频,随机腿照,随机小姐姐,恂云api">
-    <title>路士瀚爱看</title>
-    <link rel="stylesheet" href="css/style.css">
-<section id="main"><video id="player" src="https://api.xyttkx.cn/video.php" controls="controls"></video></section>
-    <section id="buttons">
+    <div id="announcement">
+        <div id="announcement-content">
+            <h1>公告</h1>
+            <p>路士瀚别看了!别看了!别看了!别看了!</p>
+            <button id="enter-button">进入</button> <!-- 进入按钮 -->
+        </div>
+    </div>
+    <div id="welcome-msg"></div>
 
+    <a style="
+        display: block;
+        background: #98a3ff;
+        color: #FFF;
+        text-align: center;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 25px;
+        margin: 0 auto;
+        margin-top: 0px;
+        border-radius: 32px;
+        width: 90%;
+    " onclick="javascript:document.querySelector('.web_notice').remove()">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta http-equiv="Cache-Control" content="no-transform">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta name="referrer" content="never">
+        <meta name="renderer" content="webkit">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="XiaoMo-随机视频">
+        <meta name="keywords" content="随机视频,随机视频,随机腿照,随机小姐姐,恂云api">
+        <title>路士瀚爱看</title>
+        <link rel="stylesheet" href="css/style.css">
+    </a>
+    <section id="main">
+        <video id="player" src="https://api.xyttkx.cn/video.php" controls="controls"></video>
+    </section>
+    <section id="buttons">
         <button id="next">下一位</button>
         <button id="switch">自动播放</button>
     </section>
@@ -68,5 +129,34 @@
                 if (auto) randomm();
             });
         })(window, document);
+
+        var announcement = document.getElementById('announcement');
+        var enterButton = document.getElementById('enter-button');
+        var welcomeMsg = document.getElementById('welcome-msg');
+
+        function enter() {
+            closeAnnouncement();
+            welcomeMsg.innerText = '欢迎回来！祝您使用愉快';
+            welcomeMsg.style.display = 'block';
+            setTimeout(function () {
+                welcomeMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        function closeAnnouncement() {
+            announcement.style.display = 'none';
+            enterButton.removeEventListener('click', enter);
+        }
+
+        enterButton.addEventListener('click', enter);
+
+        announcement.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+
+        window.onload = function () {
+            enterButton.focus();
+        };
     </script>
-</a></body></html>
+</body>
+</html>
