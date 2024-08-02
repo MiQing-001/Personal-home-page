@@ -1,162 +1,206 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>留言系统</title>
     <style>
-        #scrolldiv {
-            overflow: hidden;
-        }
-        body {
-            background-image: url("bj.jpg");
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        #announcement {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-        #announcement-content {
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 80%;
-            text-align: center;
-        }
-        #enter-button {
-            margin-top: 20px;
-            background-color: #3085d6;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #welcome-msg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            font-size: 24px;
-            text-align: center;
-            display: none;
-            z-index: 9999;
-        }
-    </style>
-</head>
-<body>
-    <div id="announcement">
-        <div id="announcement-content">
-            <h1>公告</h1>
-            <p>路士瀚别看了!别看了!别看了!别看了!</p>
-            <button id="enter-button">进入</button> <!-- 进入按钮 -->
-        </div>
-    </div>
-    <div id="welcome-msg"></div>
+      /* 样式 */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
 
-    <a style="
-        display: block;
-        background: #98a3ff;
-        color: #FFF;
-        text-align: center;
-        font-weight: bold;
-        font-size: 12px;
-        line-height: 25px;
+      .container {
+        max-width: 600px;
         margin: 0 auto;
-        margin-top: 0px;
-        border-radius: 32px;
-        width: 90%;
-    " onclick="javascript:document.querySelector('.web_notice').remove()">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta http-equiv="Cache-Control" content="no-transform">
-        <meta http-equiv="Cache-Control" content="no-siteapp">
-        <meta name="referrer" content="never">
-        <meta name="renderer" content="webkit">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="description" content="XiaoMo-随机视频">
-        <meta name="keywords" content="随机视频,随机视频,随机腿照,随机小姐姐,恂云api">
-        <title>路士瀚爱看</title>
-        <link rel="stylesheet" href="css/style.css">
-    </a>
-    <section id="main">
-        <video id="player" src="https://api.xyttkx.cn/video.php" controls="controls"></video>
-    </section>
-    <section id="buttons">
-        <button id="next">下一位</button>
-        <button id="switch">自动播放</button>
-    </section>
+        padding: 20px;
+      }
 
+      h1 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"],
+      textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-size: 1rem;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+
+      select {
+        display: block;
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+      
+      .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .message {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      .message__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .message__author {
+        font-weight: bold;
+      }
+
+      .message__date {
+        font-size: 0.8rem;
+        color: #777;
+      }
+
+      .message__content {
+        font-size: 1rem;
+        white-space: pre-wrap;
+      }      
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>留言系统</h1>
+      <!-- 留言表单 -->
+      <form id="message-form">
+        <label for="name">姓名：</label>
+        <input type="text" id="name" name="name" required />
+        <label for="email">邮箱：</label>
+        <input type="text" id="email" name="email" required />
+        <label for="message">留言：</label>
+        <textarea id="message" name="message" required></textarea>
+        <label for="emoji">表情：</label>
+      <select id="emoji" name="emoji">
+      <option value="🙂">🙂开心</option>
+      <option value="😭">😭伤心</option>
+      <option value="😡">😡生气</option>
+      <option value="🥱">🥱困倦</option>
+    </select>
+        <input type="submit" value="提交" />
+      </form>
+      <!-- 留言列表 -->
+      <ul id="messages" class="messages"></ul>
+    </div>
+
+    <!-- JavaScript代码 -->
     <script>
-        (function(window, document) {
-            if (top != self) {
-                window.top.location.replace(self.location.href);
-            }
-            var get = function(id) {
-                return document.getElementById(id);
-            }
-            var bind = function(element, event, callback) {
-                return element.addEventListener(event, callback);
-            }
-            var auto = true;
-            var player = get('player');
-            var randomm = function() {
-                player.src = 'https://api.xyttkx.cn/video.php?_t=' + Math.random();
-                player.play();
-            }
-            bind(get('next'), 'click', randomm);
-            bind(player, 'error', function() {
-                randomm();
-            });
-            bind(get('switch'), 'click', function() {
-                auto = !auto;
-                this.innerText = '自动播放' + (auto ? '开' : '关');
-            });
-            bind(player, 'ended', function() {
-                if (auto) randomm();
-            });
-        })(window, document);
+      // 获取表单和留言列表元素
+      const form = document.querySelector("#message-form");
+      
+      const messagesList = document.querySelector("#messages");
+      
+      // 当表单被提交时，执行添加留言的函数
+      form.addEventListener("submit", (event) => {
+        // 阻止表单默认的提交行为
+        event.preventDefault();
 
-        var announcement = document.getElementById('announcement');
-        var enterButton = document.getElementById('enter-button');
-        var welcomeMsg = document.getElementById('welcome-msg');
-
-        function enter() {
-            closeAnnouncement();
-            welcomeMsg.innerText = '欢迎回来！祝您使用愉快';
-            welcomeMsg.style.display = 'block';
-            setTimeout(function () {
-                welcomeMsg.style.display = 'none';
-            }, 3000);
-        }
-
-        function closeAnnouncement() {
-            announcement.style.display = 'none';
-            enterButton.removeEventListener('click', enter);
-        }
-
-        enterButton.addEventListener('click', enter);
-
-        announcement.addEventListener('click', function (event) {
-            event.stopPropagation();
-        });
-
-        window.onload = function () {
-            enterButton.focus();
+        // 获取表单字段的值
+        const name = form.elements.name.value;
+        const email = form.elements.email.value;
+        const message = form.elements.message.value;
+        const emoji = form.elements.emoji.value;
+        // 创建一个新的留言对象
+        const newMessage = {
+          name,
+          email,
+          message,
+          emoji,
+          date: new Date(),
         };
+
+        // 将留言对象添加到留言列表中
+        addMessageToDOM(newMessage);
+
+        // 重置表单字段
+        form.reset();
+      });
+
+      // 添加留言到DOM中
+      function addMessageToDOM(message) {
+        const li = document.createElement("li");
+        li.classList.add("message");
+
+        // 留言头部（作者和日期）
+        const header = document.createElement("div");
+        header.classList.add("message__header");
+
+        const author = document.createElement("span");
+        author.classList.add("message__author");
+        author.textContent = message.name;
+
+        const date = document.createElement("span");
+        date.classList.add("message__date");
+        date.textContent = message.date.toLocaleString();
+
+        header.appendChild(author);
+        header.appendChild(date);
+        
+        // 留言内容
+        const content = document.createElement("div");
+        content.classList.add("message__content");
+        content.textContent = message.message;
+        
+        //添加表情
+        const emojiSpan = document.createElement('span');
+        emojiSpan.classList.add("message__emoji");
+        emojiSpan.textContent = message.emoji;
+        
+        li.appendChild(header);
+        li.appendChild(content);
+        li.appendChild(emojiSpan);
+        messagesList.appendChild(li);
+      }
     </script>
-</body>
+  </body>
 </html>
