@@ -8,4 +8,5 @@
 
 未来，我希望能够继续在编程的道路上前行，不仅为了解决问题，创造价值，更为了享受这个过程带来的乐趣和挑战。我相信，编程不仅能够改变世界，更能够改变我自己，让我成为一个更好的思考者、创造者和梦想家。
 
-个人简历:https://xiaomoloveslearning.github.io/
+个人简历
+https://xiaomoloveslearning.github.io/
