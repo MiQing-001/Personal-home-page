@@ -1,5 +1,5 @@
 # About Me 
-Special website development C language c++ etc.
+This website is built with html and is open source.
 <hr>
 
 ### Languages & Skills
