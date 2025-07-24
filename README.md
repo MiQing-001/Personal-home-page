@@ -1,3 +1,9 @@
+<div>
+
+[**简体中文**](README_zh_CN.md)
+
+</div>
+
 # About Me 
 This website is built with html and is open source.
 <hr>
